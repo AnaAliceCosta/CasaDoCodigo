@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -33,10 +34,15 @@ namespace CasaDoCodigo
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            string ConnectionString = Configuration.GetConnectionString("Default");
+            services.AddDbContext<ApplicationContext>( optionsAction =>
+                optionsAction.UseSqlServer(ConnectionString)
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+        IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -57,8 +63,9 @@ namespace CasaDoCodigo
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Pedido}/{action=Carrossel}/{id?}");
             });
+            serviceProvider.GetService<ApplicationContext>().Database.Migrate();
         }
     }
 }
