@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CasaDoCodigo.DAO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -32,12 +33,15 @@ namespace CasaDoCodigo
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             string ConnectionString = Configuration.GetConnectionString("Default");
             services.AddDbContext<ApplicationContext>( optionsAction =>
                 optionsAction.UseSqlServer(ConnectionString)
             );
+            services.AddTransient<IDataService,DataService>();
+            services.AddTransient<IProdutoDao,ProdutoDao>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,7 +69,7 @@ namespace CasaDoCodigo
                     name: "default",
                     template: "{controller=Pedido}/{action=Carrossel}/{id?}");
             });
-            serviceProvider.GetService<ApplicationContext>().Database.Migrate();
+            serviceProvider.GetService<IDataService>().InicializaDB();
         }
     }
 }

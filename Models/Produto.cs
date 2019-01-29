@@ -16,7 +16,7 @@ namespace CasaDoCodigo.Models
         [Required]
         public decimal Preco { get; private set; }
 
-        public Produto(string codigo, string nome, decimal preco)
+        public Produto( string nome,string codigo, decimal preco)
         {
             this.Codigo = codigo;
             this.Nome = nome;
