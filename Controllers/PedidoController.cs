@@ -5,16 +5,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CasaDoCodigo.Models;
+using CasaDoCodigo.DAO;
 
 
 namespace CasaDoCodigo.Controllers
 {
     public class PedidoController : Controller
     {
-        public IActionResult Carrossel()
-        {
+        private readonly IProdutoDAO produtoDao;
 
-            return View();
+        public PedidoController(IProdutoDAO produtoDao)
+        {
+            this.produtoDao = produtoDao;
+        }
+
+        public IActionResult Carrossel()
+        {  
+            return View(produtoDao.GetProdutos());
         }
         public IActionResult Carrinho()
         {

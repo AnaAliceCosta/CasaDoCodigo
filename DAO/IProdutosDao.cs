@@ -7,9 +7,10 @@ using Microsoft.EntityFrameworkCore;
 namespace CasaDoCodigo.DAO
 {
 
-    public interface IProdutoDao
+    public interface IProdutoDAO
     {
         void SavePrdutos(List<Livro> livros);
+        IList<Produto> GetProdutos();
     }
 
 }

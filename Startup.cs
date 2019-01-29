@@ -41,7 +41,10 @@ namespace CasaDoCodigo
                 optionsAction.UseSqlServer(ConnectionString)
             );
             services.AddTransient<IDataService,DataService>();
-            services.AddTransient<IProdutoDao,ProdutoDao>();
+            services.AddTransient<IProdutoDAO,ProdutoDAO>();
+            services.AddTransient<IPedidoDAO,PedidoDAO>();
+            services.AddTransient<ICadastroDAO,CadastroDAO>();
+            services.AddTransient<IItemPedidoDAO,ItemPedidoDAO>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
