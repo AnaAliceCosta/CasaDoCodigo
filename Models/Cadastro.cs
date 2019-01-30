@@ -2,13 +2,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CasaDoCodigo.Models
 {
-    public class Cadastro : BaseModel
+      public class Cadastro : BaseModel
     {
         public Cadastro()
         {
         }
-
-        public virtual Pedido Pedido { get; set; }  
+        public int PedidoId { get; set; }
+        public virtual Pedido Pedido { get; set; }
         [Required]
         public string Nome { get; set; } = "";
         [Required]

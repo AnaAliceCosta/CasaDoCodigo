@@ -37,8 +37,8 @@
                                         <div>
                                             <h4><strong>@produto.Preco </strong></h4>
                                         </div>
-                                        <div class="btn btn-secondary">
-                                            @Html.ActionLink("Adicionar","Carrinho","Pedido",new { id = produto.Id})
+                                        <div class="text-center">
+                                            <a class="btn btn-primary" asp-action="Carrinho" asp-route-codigo="@produto.Codigo">Adicionar</a>
                                         </div>
                                     </div>
                                 </div>

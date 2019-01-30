@@ -36,10 +36,13 @@ namespace CasaDoCodigo
             
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             string ConnectionString = Configuration.GetConnectionString("Default");
             services.AddDbContext<ApplicationContext>( optionsAction =>
                 optionsAction.UseSqlServer(ConnectionString)
             );
+            services.AddTransient<IHttpContextAccessor,HttpContextAccessor>();
             services.AddTransient<IDataService,DataService>();
             services.AddTransient<IProdutoDAO,ProdutoDAO>();
             services.AddTransient<IPedidoDAO,PedidoDAO>();
@@ -64,13 +67,14 @@ namespace CasaDoCodigo
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Pedido}/{action=Carrossel}/{id?}");
+                    template: "{controller=Pedido}/{action=Carrossel}/{codigo?}");
             });
             serviceProvider.GetService<IDataService>().InicializaDB();
         }

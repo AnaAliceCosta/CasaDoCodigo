@@ -13,19 +13,26 @@ namespace CasaDoCodigo.Controllers
     public class PedidoController : Controller
     {
         private readonly IProdutoDAO produtoDao;
+        private readonly IPedidoDAO pedidoDAO;
 
-        public PedidoController(IProdutoDAO produtoDao)
+        public PedidoController(IProdutoDAO produtoDao,IPedidoDAO pedidoDAO)
         {
             this.produtoDao = produtoDao;
+            this.pedidoDAO = pedidoDAO;
         }
 
         public IActionResult Carrossel()
         {  
             return View(produtoDao.GetProdutos());
         }
-        public IActionResult Carrinho()
+        public IActionResult Carrinho(string codigo)
         {
-            return View();
+            if (!string.IsNullOrEmpty(codigo))
+            {
+                pedidoDAO.AddItem(codigo);
+            }
+            Pedido pedido = pedidoDAO.GetPedido();
+            return View(pedido.Itens);
         }
         public IActionResult Cadastro()
         {
